@@ -1,4 +1,4 @@
-# API flask para rodar uma aplicação Keras com animação em JS na visualização
+# API flask para rodar uma aplicação Keras com animação básica em JS na visualização
 É uma pequena aplicação  com Flask onde roda uma ANN feita em keras para classificar se a pessoa sobreveriria ou não no acidente do titanic. 
 
 O objetivo da aplicação é determinar se o usuario sobreviveria ou não ao desastre do titanic.

@@ -1,0 +1,173 @@
+<html lang="pt-br">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      <title>Sobrevivencia no titanic</title>
+      <!-- Bootstrap core CSS -->
+      <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+      <!-- css manual -->
+      <link href="{{ url_for('static', filename='css/padra.css') }}" rel="stylesheet">
+      
+      <!-- JQuery -->
+      <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+      <script> 
+         $(document).ready(function(){      
+            var titanic = function(){
+               $(".titanic").animate({left: '60%', bottom: '0px'}, {
+                  step: function(now,fx) {                     
+                     var rot = ((fx.now-fx.start) / (fx.end-fx.start) * 45);
+                     $(this).css('transform','rotate(' + rot + 'deg)');  
+                  },
+                  duration:10000
+               },'linear');
+            }
+
+            var men = function(){
+               titanic();
+               
+               setTimeout(function(){
+                  $(".men").animate({left: '80%', opacity:1}, {
+                        duration:10000
+                  },'linear');
+               }, 1000)
+            }
+
+            var woman = function(){
+               titanic();
+
+               setTimeout(function(){
+                  $(".woman").animate({left: '80%', opacity:1}, {
+                     duration:10000
+                  },'linear');
+               }, 1000)
+            }
+
+            $("#up").submit(function(e){
+               e.preventDefault();
+               $.ajax({
+                  url: "/uploader",
+                  method: "post",
+                  data: $(this).serialize()
+               })
+               .done(function(data) {
+                  console.log(data);
+                  if (data.result == 0){
+                     titanic();
+                  } else {
+                     if($('[name=sex]:checked').val() == 1){
+                        woman();
+                     } else{
+                        men();
+                     }                  
+                  }
+               });
+            });   
+         });
+      </script> 
+   </head>
+
+   <body>
+   <header>
+         <div class="logo">
+               <h1>Voce sobreviveria no titanic?</h1>
+         </div>
+         <div class="menu">
+               <ul>
+                  <li>
+                     <a href="/">Página inicial</a>
+                  </li>
+               </ul>
+         </div>
+      </header>  
+      <div class="content">
+         <div id="upload">
+            <form action="/uploader" method="POST" enctype="multipart/form-data" id="up">
+               <input type="text" name="name" placeholder="Nome"required>
+
+               <input type="number" name="age" placeholder="Idade"required>
+
+               <input type="number" name="parch" placeholder="parch" required>
+
+               <input type="number" name="sibsp" placeholder="sibsp" required>
+
+               <select name="title" required>
+                  <option value="1"> Capitão </option>
+                  <option value="2"> Col </option>
+                  <option value="3"> Don </option>
+                  <option value="4"> Dr </option>
+                  <option value="5"> Jonkheer </option>
+                  <option value="6"> Senhora </option>
+                  <option value="7"> Major </option>
+                  <option value="8"> Mestre </option>
+                  <option value="9"> Miss </option>
+                  <option value="10"> Mlle </option>
+                  <option value="11"> Mme </option>
+                  <option value="12"> Mr </option>
+                  <option value="13"> Mrs </option>
+                  <option value="14"> Ms </option>
+                  <option value="15"> Rev </option>
+                  <option value="16"> Sir </option>
+                  <option value="17"> Condessa </option>
+               </select>
+
+               <select name="class" required>
+                  <option disabled>Nv acomodação</option>
+                  <option value="1">1ª classe</option>
+                  <option value="2">2ª classe</option>
+                  <option value="3">3ª classe</option>
+               </select>
+
+               <label for="f"><input type="radio" name="sex" value="1" id="f"> Feminino</label>
+               <label for="m"><input type="radio" name="sex" value="2" id="m"> Masculino</label>
+
+               <select name="embarked">
+                  <option disabled>Lugar de embarque</option>
+                  <option value="1">Cherbourg</option>
+                  <option value="2">Queenstown</option>
+                  <option value="3">Southampton</option>
+               </select>
+               
+               <select name="cabinLetter">
+                  <option disabled>Tipo de quarto</option>
+                  <option value="9">A</option>
+                  <option value="1">B</option>
+                  <option value="2">C</option>
+                  <option value="3">D</option>
+                  <option value="4">E</option>
+                  <option value="5">F</option>
+                  <option value="6">G</option>
+                  <option value="7">T</option>
+                  <option value="8">Z</option>
+               </select>
+
+               <input type="number" name="NumberCabin" placeholder="num" required>
+
+               <input type="submit"/>
+            </form>
+            <div class="listas">
+               <div class="item">
+                  <h2>parch</h2>
+                  <p># de pais / filhos a bordo do Titanic</p>
+               </div>
+               <div class="item">
+                  <h2>sibsp</h2>
+                  <p># de irmãos / cônjuges a bordo do Titanic</p>
+               </div>
+            </div>
+            <img class="titanic" src="{{ url_for('static', filename='images/titanic.png') }}">
+
+            <img class="woman" src="{{ url_for('static', filename='images/woman.gif') }}">
+
+            <img class="men" src="{{ url_for('static', filename='images/men.gif') }}">
+
+            <img class="sea" src="{{ url_for('static', filename='images/sea.png') }}">
+            <footer>
+               <div class="logo-footer">
+                     <img src="{{ url_for('static', filename='images/logoCurso.png') }}">
+               </div>
+               <div class="copy"><p>Paolla Olsen & João Gustavo Atkinson Amorim</p></div>
+            </footer>
+         </div>   
+   </body>
+</html>

@@ -1,0 +1,268 @@
+import pandas as pd
+X = pd.read_csv('train_data_X.csv')
+dataOut = pd.read_csv('train_data_y.csv')
+
+y = []
+for d0 in dataOut["0.0"]:
+    if(d0 == 1):
+        y.append(0)
+    else:
+        y.append(1)
+
+dataIn = pd.DataFrame(columns=['age', 'parch', 'sibsp', 'title', 'class', 'sex', 'embarked', 'cabinLetter', 'NumberCabin'])
+dataIn = pd.DataFrame(columns=['age', 'parch', 'sibsp', 'title', 'class', 'sex', 'embarked', 'cabinLetter', 'NumberCabin'])
+
+dataIn["age"] = X["Age"].copy()
+dataIn["parch"] = X["Parch"].copy()
+dataIn["sibsp"] = X["SibSp"].copy()
+
+
+
+dictTitle = dict({'Title_Capt': 18, 
+    'Title_Col': 1, 
+    'Title_Don': 2, 
+    'Title_Dona': 3, 
+    'Title_Dr': 4, 
+    'Title_Jonkheer': 5, 
+    'Title_Lady': 6, 
+    'Title_Major': 7, 
+    'Title_Master': 8, 
+    'Title_Miss': 9, 
+    'Title_Mlle': 10, 
+    'Title_Mme': 11, 
+    'Title_Mr': 12, 
+    'Title_Mrs': 13, 
+    'Title_Ms': 14, 
+    'Title_Rev': 15, 
+    'Title_Sir': 16, 
+    'Title_the Countess': 17})
+
+dictCabin = dict({'Cabin_A10':10,
+    'Cabin_A11':11,
+    'Cabin_A14':14,
+    'Cabin_A16':16,
+    'Cabin_A18':18,
+    'Cabin_A19':19,
+    'Cabin_A20':20,
+    'Cabin_A21':21,
+    'Cabin_A23':23,
+    'Cabin_A24':24,
+    'Cabin_A26':26,
+    'Cabin_A29':29,
+    'Cabin_A31':31,
+    'Cabin_A32':32,
+    'Cabin_A34':34,
+    'Cabin_A36':36,
+    'Cabin_A5':5,
+    'Cabin_A6':6,
+    'Cabin_A7':7,
+    'Cabin_A9':9,
+    'Cabin_B10':10,
+    'Cabin_B101':101,
+    'Cabin_B102':102,
+    'Cabin_B11':11,
+    'Cabin_B18':18,
+    'Cabin_B19':19,
+    'Cabin_B20':20,
+    'Cabin_B22':22,
+    'Cabin_B24':24,
+    'Cabin_B26':26,
+    'Cabin_B28':28,
+    'Cabin_B3':3,
+    'Cabin_B30':30,
+    'Cabin_B35':35,
+    'Cabin_B36':36,
+    'Cabin_B37':37,
+    'Cabin_B38':38,
+    'Cabin_B39':39,
+    'Cabin_B4':4,
+    'Cabin_B41':41,
+    'Cabin_B42':42,
+    'Cabin_B45':45,
+    'Cabin_B49':49,
+    'Cabin_B5':5,
+    'Cabin_B50':50,
+    'Cabin_B51 B53 B55':51,
+    'Cabin_B52 B54 B56':52,
+    'Cabin_B57 B59 B63 B66':57,
+    'Cabin_B58 B60':58,
+    'Cabin_B61':61,
+    'Cabin_B69':69,
+    'Cabin_B71':71,
+    'Cabin_B73':73,
+    'Cabin_B77':77,
+    'Cabin_B78':78,
+    'Cabin_B79':79,
+    'Cabin_B80':80,
+    'Cabin_B82 B84':82,
+    'Cabin_B86':86,
+    'Cabin_B94':94,
+    'Cabin_B96 B98':96,
+    'Cabin_C101':101,
+    'Cabin_C103':103,
+    'Cabin_C104':104,
+    'Cabin_C105':105,
+    'Cabin_C106':106,
+    'Cabin_C110':110,
+    'Cabin_C111':111,
+    'Cabin_C116':116,
+    'Cabin_C118':118,
+    'Cabin_C123':123,
+    'Cabin_C124':124,
+    'Cabin_C125':125,
+    'Cabin_C126':126,
+    'Cabin_C128':128,
+    'Cabin_C130':130,
+    'Cabin_C132':132,
+    'Cabin_C148':148,
+    'Cabin_C2':2,
+    'Cabin_C22 C26':22,
+    'Cabin_C23 C25 C27':23,
+    'Cabin_C28':28,
+    'Cabin_C30':30,
+    'Cabin_C31':31,
+    'Cabin_C32':32,
+    'Cabin_C39':39,
+    'Cabin_C45':45,
+    'Cabin_C46':46,
+    'Cabin_C47':47,
+    'Cabin_C49':49,
+    'Cabin_C50':50,
+    'Cabin_C51':51,
+    'Cabin_C52':52,
+    'Cabin_C53':53,
+    'Cabin_C54':54,
+    'Cabin_C55 C57':55,
+    'Cabin_C6':6,
+    'Cabin_C62 C64':62,
+    'Cabin_C65':65,
+    'Cabin_C68':68,
+    'Cabin_C7':7,
+    'Cabin_C70':70,
+    'Cabin_C78':78,
+    'Cabin_C80':80,
+    'Cabin_C82':82,
+    'Cabin_C83':83,
+    'Cabin_C85':85,
+    'Cabin_C86':86,
+    'Cabin_C87':87,
+    'Cabin_C89':89,
+    'Cabin_C90':90,
+    'Cabin_C91':91,
+    'Cabin_C92':92,
+    'Cabin_C93':93,
+    'Cabin_C95':95,
+    'Cabin_C97':97,
+    'Cabin_C99':99,
+    'Cabin_D':203,
+    'Cabin_D10 D12':10,
+    'Cabin_D11':11,
+    'Cabin_D15':15,
+    'Cabin_D17':17,
+    'Cabin_D19':19,
+    'Cabin_D20':20,
+    'Cabin_D21':21,
+    'Cabin_D22':22,
+    'Cabin_D26':26,
+    'Cabin_D28':28,
+    'Cabin_D30':30,
+    'Cabin_D33':33,
+    'Cabin_D34':34,
+    'Cabin_D35':35,
+    'Cabin_D36':36,
+    'Cabin_D37':37,
+    'Cabin_D38':38,
+    'Cabin_D40':40,
+    'Cabin_D43':43,
+    'Cabin_D45':45,
+    'Cabin_D46':46,
+    'Cabin_D47':47,
+    'Cabin_D48':48,
+    'Cabin_D49':49,
+    'Cabin_D50':50,
+    'Cabin_D56':56,
+    'Cabin_D6':6,
+    'Cabin_D7':7,
+    'Cabin_D9':9,
+    'Cabin_E10':10,
+    'Cabin_E101':101,
+    'Cabin_E12':12,
+    'Cabin_E121':121,
+    'Cabin_E17':17,
+    'Cabin_E24':24,
+    'Cabin_E25':25,
+    'Cabin_E31':31,
+    'Cabin_E33':33,
+    'Cabin_E34':34,
+    'Cabin_E36':36,
+    'Cabin_E38':38,
+    'Cabin_E39 E41':39,
+    'Cabin_E40':40,
+    'Cabin_E44':44,
+    'Cabin_E45':45,
+    'Cabin_E46':46,
+    'Cabin_E49':49,
+    'Cabin_E50':50,
+    'Cabin_E52':52,
+    'Cabin_E58':58,
+    'Cabin_E60':60,
+    'Cabin_E63':63,
+    'Cabin_E67':67,
+    'Cabin_E68':68,
+    'Cabin_E77':77,
+    'Cabin_E8':8,
+    'Cabin_F':202,
+    'Cabin_F E46':46,
+    'Cabin_F E57':57,
+    'Cabin_F E69':69,
+    'Cabin_F G63':63,
+    'Cabin_F G73':73,
+    'Cabin_F2':2,
+    'Cabin_F33':33,
+    'Cabin_F38':38,
+    'Cabin_F4':4,
+    'Cabin_G6':6,
+    'Cabin_T':201,
+    'Cabin_Z':200})  
+
+dictLetra = dict({'Cabin_letter_A':9, 
+                'Cabin_letter_B':1, 
+                'Cabin_letter_C':2, 
+                'Cabin_letter_D':3, 
+                'Cabin_letter_E':4, 
+                'Cabin_letter_F':5, 
+                'Cabin_letter_G':6, 
+                'Cabin_letter_T':7, 
+                'Cabin_letter_Z':8})
+
+dictEmbarked = dict({'Embarked_C': 1, 
+    'Embarked_Q': 2, 
+    'Embarked_S': 3})
+
+dictSex = dict({
+    'Sex_female':1, 
+    'Sex_male':2})
+
+dictClass = dict({'Pclass_1':1, 
+    'Pclass_2':2, 
+    'Pclass_3':3})
+
+
+for d in dictTitle:
+    dataIn["title"].loc[X[str(d)]==1] = dictTitle[str(d)]
+for d in dictClass:
+    dataIn["class"].loc[X[str(d)]==1] = dictClass[str(d)]
+for d in dictSex:
+    dataIn["sex"].loc[X[str(d)]==1] = dictSex[str(d)]
+for d in dictEmbarked:
+    dataIn["embarked"].loc[X[str(d)]==1] = dictEmbarked[str(d)]
+for d in dictLetra:
+    dataIn["cabinLetter"].loc[X[str(d)]==1] = dictLetra[str(d)]
+for d in dictCabin:
+    dataIn["NumberCabin"].loc[X[str(d)]==1] = dictCabin[str(d)]
+    
+dataIn.fillna(dataIn.mean(), inplace=True)
+
+dataIn["target"] = y
+
+dataIn.to_csv("dataIn.csv", index=False)
